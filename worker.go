@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+var completedTasks int
+
 func startWorker(name string) {
 	go func() {
 		for task := range taskQueue {
@@ -24,6 +26,7 @@ func startWorker(name string) {
 			}
 
 			task.Status = "done"
+			completedTasks++
 
 			fmt.Printf("[%s]Выполнил задачу %s: %d\n", name, task.ID, task.Result)
 			time.Sleep(500 * time.Millisecond)

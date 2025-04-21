@@ -49,3 +49,26 @@ func getTaskHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(task)
 }
+
+func listTasksHandler(w http.ResponseWriter, r *http.Request) {
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	var tasks []*Task
+	for _, t := range taskResults {
+		tasks = append(tasks, t)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(tasks)
+}
+
+func metricHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	metrics := map[string]int{
+		"completed_tasks": completedTasks,
+		"queue_length":    len(taskQueue),
+	}
+
+	json.NewEncoder(w).Encode(metrics)
+}

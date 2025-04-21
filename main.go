@@ -12,6 +12,8 @@ func main() {
 
 	http.HandleFunc("/submit-task", submitTaskHandler)
 	http.HandleFunc("/get-task", getTaskHandler)
+	http.HandleFunc("/tasks", listTasksHandler)
+	http.HandleFunc("/metrics", metricHandler)
 
 	log.Println("Server started at :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
